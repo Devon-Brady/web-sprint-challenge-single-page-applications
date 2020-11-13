@@ -3,6 +3,7 @@ import Home from './Home';
 import {useState} from 'react';
 import schema from '../validation/Schema';
 import * as yup from 'yup';
+import axios from 'axios';
 
 
 export default function Pizza(){
@@ -29,7 +30,7 @@ export default function Pizza(){
 
       const [ values , setValues] = useState(initialValues);
         const[errors, setErrors] = useState(initialFormErrors);
-        console.log(values)
+        // console.log(values)
 
     function changeValues(e){
         e.persist();
@@ -51,6 +52,20 @@ export default function Pizza(){
             validate();
             
             setValues({...values,[e.target.name]:correctValue})
+        }
+
+        function SubmitData (e){
+            e.preventDefault();
+            axios
+            .post(`https://reqres.in/api/orders`,values)
+            .then((res)=>{
+                prop.orderFunc(res.data);
+                console.log(res);
+                setValues(initialValues);
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
         }
     return (
         
