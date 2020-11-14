@@ -1,11 +1,29 @@
 import React from "react";
+import { Route } from "react-router-dom";
+import Home from './components/Home';
+import Pizza from './components/Pizza';
+import {useState} from 'react';
 
 const App = () => {
+
+  const [orders, setOrders]= useState([]);
+
+function makeOrdersList(para){
+  const arr = [...orders]
+  arr.push(para);
+  setOrders(arr);
+}
+
   return (
-    <>
-      <h1>Lambda Eats</h1>
-      <p>You can remove this code and create your own header</p>
-    </>
+    <div>
+    <Route exact path='/'>
+      <Home/>
+    </Route>
+    <Route path='/pizza'>
+      <Pizza orderFunc={makeOrdersList}/>
+    </Route>
+    </div>
+    
   );
 };
-export default App;
+export default App()
